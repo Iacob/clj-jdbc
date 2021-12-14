@@ -37,6 +37,12 @@
     (let [cnt (. stmt executeUpdate)]
       cnt ) ) )
 
+(defn map-rs [rs proc]
+  (let [result (transient [])]
+    (while (. rs next)
+      (conj! result (proc rs)) )
+    (persistent! result) )
+  )
 
 
 (defn deserialize-row [rs row-def]
